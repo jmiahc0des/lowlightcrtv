@@ -1,4 +1,4 @@
-  // Hero video: play first ~4.5s then fade out to reveal logo
+  // Hero video: play then fade out to reveal logo
   const heroVideo = document.querySelector('.hero-video');
   const heroLogo  = document.querySelector('.hero-logo');
   const heroBlack = document.querySelector('.hero-black');
@@ -16,21 +16,28 @@
   }
 
   if (heroVideo) {
-    // Fallback: if video hasn't started playing within 3s, show logo anyway
-    const fallbackTimer = setTimeout(() => {
-      heroVideo.style.opacity = '0';
-      showLogo();
-    }, 3000);
+    // Fallback: show logo after 8s regardless (covers slow connections)
+    const logoTimer = setTimeout(showLogo, 8000);
 
-    heroVideo.addEventListener('loadedmetadata', () => { heroVideo.currentTime = 6.5; }, { once: true });
+    // Seek to cinematic start point once metadata is known
+    heroVideo.addEventListener('loadedmetadata', () => {
+      heroVideo.currentTime = 6.5;
+    }, { once: true });
+
+    // After seek completes, show video and ensure it's playing
     heroVideo.addEventListener('seeked', () => {
-      clearTimeout(fallbackTimer);
+      heroVideo.style.opacity = '1';
+      heroVideo.play().catch(() => {});
+    }, { once: true });
+
+    // Show video immediately if it can play (handles browsers that skip seeked)
+    heroVideo.addEventListener('canplay', () => {
       heroVideo.style.opacity = '1';
     }, { once: true });
 
-    // Also clear fallback on error
+    // If video errors, skip straight to logo
     heroVideo.addEventListener('error', () => {
-      clearTimeout(fallbackTimer);
+      clearTimeout(logoTimer);
       showLogo();
     }, { once: true });
 
@@ -41,6 +48,7 @@
     function onVideoProgress() {
       if (!fadingOut && heroVideo.currentTime >= VIDEO_END - FADE_DUR / 1000) {
         fadingOut = true;
+        clearTimeout(logoTimer);
         heroVideo.style.opacity = '0';
         showLogo();
       }
@@ -51,7 +59,6 @@
     }
     heroVideo.addEventListener('timeupdate', onVideoProgress);
   } else {
-    // No video element at all — show logo immediately
     showLogo();
   }
 
