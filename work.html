@@ -43,30 +43,34 @@
   <a href="https://instagram.com/lowlightcrtv" target="_blank">Instagram</a>
 </footer>
 
-<script src="albums.js"></script>
 <script>
   const grid = document.getElementById('portfolioGrid');
-  ALBUMS.forEach(album => {
-    const a = document.createElement('a');
-    a.className = 'portfolio-card';
-    a.href = 'gallery.html?album=' + album.slug;
-    const img = document.createElement('img');
-    img.src = album.preview;
-    img.alt = album.name;
-    img.loading = 'lazy';
-    const label = document.createElement('div');
-    label.className = 'portfolio-label';
-    const name = document.createElement('p');
-    name.className = 'portfolio-name';
-    name.textContent = album.name;
-    label.appendChild(name);
-    const thumb = document.createElement('div');
-    thumb.className = 'portfolio-thumb';
-    thumb.appendChild(img);
-    thumb.appendChild(label);
-    a.appendChild(thumb);
-    grid.appendChild(a);
-  });
+  function renderAlbums(albums) {
+    albums.forEach(album => {
+      const a = document.createElement('a');
+      a.className = 'portfolio-card';
+      a.href = 'gallery.html?album=' + album.slug;
+      const img = document.createElement('img');
+      img.src = album.preview;
+      img.alt = album.name;
+      img.loading = 'lazy';
+      const label = document.createElement('div');
+      label.className = 'portfolio-label';
+      const name = document.createElement('p');
+      name.className = 'portfolio-name';
+      name.textContent = album.name;
+      label.appendChild(name);
+      const thumb = document.createElement('div');
+      thumb.className = 'portfolio-thumb';
+      thumb.appendChild(img);
+      thumb.appendChild(label);
+      a.appendChild(thumb);
+      grid.appendChild(a);
+    });
+  }
+  fetch('albums.json')
+    .then(r => r.json())
+    .then(data => renderAlbums(data.albums));
 </script>
 <script src="main.js" defer></script>
 

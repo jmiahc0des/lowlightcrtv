@@ -1,0 +1,33 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dnhoxymes
+    api_key: 467961415616333
+    upload_preset: lowlightcrtv
+
+collections:
+  - name: albums
+    label: Albums
+    files:
+      - name: albums
+        label: Portfolio Albums
+        file: albums.json
+        fields:
+          - name: albums
+            label: Albums
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: slug, label: Slug, widget: string, hint: "URL-friendly ID, e.g. arena-lighting (no spaces, lowercase)" }
+              - { name: name, label: Display Name, widget: string }
+              - { name: preview, label: Preview Image, widget: image }
+              - name: files
+                label: Images
+                widget: list
+                summary: "{{fields.src}}"
+                fields:
+                  - { name: src, label: Image, widget: image }

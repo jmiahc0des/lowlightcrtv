@@ -58,31 +58,36 @@
   <a href="https://instagram.com/lowlightcrtv" target="_blank">Instagram</a>
 </footer>
 
-<script src="albums.js"></script>
 <script>
   const params = new URLSearchParams(location.search);
   const slug = params.get('album');
-  const album = ALBUMS.find(a => a.slug === slug);
+  let album;
 
-  if (album) {
-    document.title = album.name + ' — Lowlight CRTV';
-    document.getElementById('galleryTitle').textContent = album.name;
-
-    const grid = document.getElementById('galleryGrid');
-    album.files.forEach((file, index) => {
-      const item = document.createElement('div');
-      item.className = 'gallery-item';
-      const img = document.createElement('img');
-      img.src = file.src;
-      img.loading = 'lazy';
-      img.alt = '';
-      item.appendChild(img);
-      item.addEventListener('click', () => openLightbox(index));
-      grid.appendChild(item);
-    });
-  } else {
-    document.getElementById('galleryTitle').textContent = 'Album not found';
+  function initGallery(data) {
+    album = data.albums.find(a => a.slug === slug);
+    if (album) {
+      document.title = album.name + ' — Lowlight CRTV';
+      document.getElementById('galleryTitle').textContent = album.name;
+      const grid = document.getElementById('galleryGrid');
+      album.files.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        const img = document.createElement('img');
+        img.src = file.src;
+        img.loading = 'lazy';
+        img.alt = '';
+        item.appendChild(img);
+        item.addEventListener('click', () => openLightbox(index));
+        grid.appendChild(item);
+      });
+    } else {
+      document.getElementById('galleryTitle').textContent = 'Album not found';
+    }
   }
+
+  fetch('albums.json')
+    .then(r => r.json())
+    .then(initGallery);
 
   const lightbox = document.getElementById('lightbox');
   const lightboxMedia = document.getElementById('lightboxMedia');
