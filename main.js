@@ -19,20 +19,10 @@
     // Fallback: show logo after 8s regardless (covers slow connections)
     const logoTimer = setTimeout(showLogo, 8000);
 
-    // Seek to cinematic start point once metadata is known
-    heroVideo.addEventListener('loadedmetadata', () => {
-      heroVideo.currentTime = 6.5;
-    }, { once: true });
-
-    // After seek completes, show video and ensure it's playing
-    heroVideo.addEventListener('seeked', () => {
-      heroVideo.style.opacity = '1';
-      heroVideo.play().catch(() => {});
-    }, { once: true });
-
-    // Show video immediately if it can play (handles browsers that skip seeked)
+    // Show video as soon as browser has enough data to play
     heroVideo.addEventListener('canplay', () => {
       heroVideo.style.opacity = '1';
+      heroVideo.play().catch(() => {});
     }, { once: true });
 
     // If video errors, skip straight to logo
@@ -41,23 +31,12 @@
       showLogo();
     }, { once: true });
 
-    const VIDEO_END = 11;
-    const FADE_DUR  = 1500;
-    let fadingOut = false;
-
-    function onVideoProgress() {
-      if (!fadingOut && heroVideo.currentTime >= VIDEO_END - FADE_DUR / 1000) {
-        fadingOut = true;
-        clearTimeout(logoTimer);
-        heroVideo.style.opacity = '0';
-        showLogo();
-      }
-      if (heroVideo.currentTime >= VIDEO_END) {
-        heroVideo.removeEventListener('timeupdate', onVideoProgress);
-        heroVideo.pause();
-      }
-    }
-    heroVideo.addEventListener('timeupdate', onVideoProgress);
+    // When video ends, fade it out and reveal logo
+    heroVideo.addEventListener('ended', () => {
+      clearTimeout(logoTimer);
+      heroVideo.style.opacity = '0';
+      showLogo();
+    }, { once: true });
   } else {
     showLogo();
   }
