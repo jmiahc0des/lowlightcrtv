@@ -36,6 +36,7 @@ const ALBUMS = [
   {
     slug: 'gavin-adcock',
     name: 'Gavin Adcock',
+    
     preview: 'imgs/Gavin Adcock 2026 Images/647320987_10237654863448448_5357458905781394130_n.jpg',
     files: [
       { src: 'imgs/Gavin Adcock 2025 Images/572774802_10235942723006007_4806438114471902090_n.jpg' },
