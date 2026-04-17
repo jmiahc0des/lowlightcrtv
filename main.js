@@ -19,11 +19,17 @@
     // Fallback: show logo after 8s regardless (covers slow connections)
     const logoTimer = setTimeout(showLogo, 8000);
 
-    // Show video as soon as browser has enough data to play
-    heroVideo.addEventListener('canplay', () => {
+    // Show video as soon as browser has enough data to play.
+    // Also check readyState immediately in case canplay already fired before this script ran.
+    function startVideo() {
       heroVideo.style.opacity = '1';
       heroVideo.play().catch(() => {});
-    }, { once: true });
+    }
+    if (heroVideo.readyState >= 3) {
+      startVideo();
+    } else {
+      heroVideo.addEventListener('canplay', startVideo, { once: true });
+    }
 
     // If video errors, skip straight to logo
     heroVideo.addEventListener('error', () => {
