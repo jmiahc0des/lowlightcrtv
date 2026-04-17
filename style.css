@@ -288,7 +288,7 @@
   .service-num { font-size: 0.58rem; letter-spacing: 0.1em; color: var(--wine); padding-top: 0.2rem; }
   .service-name {
     font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.04em;
-    color: var(--dim); transition: color 0.2s; line-height: 1; margin-bottom: 0.4rem;
+    color: var(--cream); transition: color 0.2s; line-height: 1; margin-bottom: 0.4rem;
   }
   .service-item:hover .service-name { color: var(--cream); }
   .service-item.primary .service-name { color: var(--cream); }
