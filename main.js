@@ -37,12 +37,17 @@
       showLogo();
     }, { once: true });
 
-    // When video ends, fade it out and reveal logo
-    heroVideo.addEventListener('ended', () => {
-      clearTimeout(logoTimer);
-      heroVideo.style.opacity = '0';
-      showLogo();
-    }, { once: true });
+    // Fade out 1.5s before end so video keeps playing through the transition
+    const FADE_BEFORE_END = 1.5;
+    let fadingOut = false;
+    heroVideo.addEventListener('timeupdate', () => {
+      if (!fadingOut && heroVideo.duration && heroVideo.currentTime >= heroVideo.duration - FADE_BEFORE_END) {
+        fadingOut = true;
+        clearTimeout(logoTimer);
+        heroVideo.style.opacity = '0';
+        showLogo();
+      }
+    });
   } else {
     showLogo();
   }
