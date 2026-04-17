@@ -120,3 +120,56 @@
       }
     });
   }, { threshold: 0.3 }).observe(aboutWrap);
+
+  // Contact form — validation + Netlify AJAX submission
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    const errorName    = document.getElementById('error-name');
+    const errorEmail   = document.getElementById('error-email');
+    const errorMessage = document.getElementById('error-message');
+    const formSuccess  = document.getElementById('formSuccess');
+    const emailRegex   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function setError(el, msg) { if (el) el.textContent = msg; }
+    function clearErrors() {
+      [errorName, errorEmail, errorMessage].forEach(el => { if (el) el.textContent = ''; });
+    }
+
+    // Clear errors as user types
+    contactForm.querySelectorAll('input, textarea').forEach(el => {
+      el.addEventListener('input', clearErrors);
+    });
+
+    contactForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      clearErrors();
+
+      const name    = contactForm.querySelector('[name="name"]').value.trim();
+      const email   = contactForm.querySelector('[name="email"]').value.trim();
+      const message = contactForm.querySelector('[name="message"]').value.trim();
+      let valid = true;
+
+      if (!name)               { setError(errorName,    'Name is required.');           valid = false; }
+      if (!email)              { setError(errorEmail,   'Email is required.');           valid = false; }
+      else if (!emailRegex.test(email)) { setError(errorEmail, 'Enter a valid email.'); valid = false; }
+      if (!message)            { setError(errorMessage, 'Message is required.');         valid = false; }
+      if (!valid) return;
+
+      const submitBtn = contactForm.querySelector('[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const data = new FormData(contactForm);
+        await fetch('/', { method: 'POST', body: new URLSearchParams(data).toString(),
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+        contactForm.reset();
+        formSuccess.classList.add('visible');
+        submitBtn.style.display = 'none';
+      } catch {
+        setError(errorMessage, 'Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    });
+  }
