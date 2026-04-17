@@ -1,39 +1,58 @@
-  // Hero video: play first 12s then fade out to reveal background image
+  // Hero video: play first ~4.5s then fade out to reveal logo
   const heroVideo = document.querySelector('.hero-video');
+  const heroLogo  = document.querySelector('.hero-logo');
+  const heroBlack = document.querySelector('.hero-black');
+
+  function showLogo() {
+    if (!heroLogo) return;
+    heroLogo.querySelectorAll('.neon-path').forEach(el => {
+      el.style.animation = 'none';
+      el.getBoundingClientRect();
+      el.style.animation = '';
+    });
+    heroLogo.style.transition = 'opacity 0.4s ease';
+    heroLogo.style.opacity = '1';
+    setTimeout(() => { if (heroBlack) heroBlack.style.opacity = '0'; }, 2500);
+  }
+
   if (heroVideo) {
+    // Fallback: if video hasn't started playing within 3s, show logo anyway
+    const fallbackTimer = setTimeout(() => {
+      heroVideo.style.opacity = '0';
+      showLogo();
+    }, 3000);
+
     heroVideo.addEventListener('loadedmetadata', () => { heroVideo.currentTime = 6.5; }, { once: true });
-    heroVideo.addEventListener('seeked', () => { heroVideo.style.opacity = '1'; }, { once: true });
-    const VIDEO_END = 11;    // 6.5s start + 4.5s = 11s
-    const FADE_DUR  = 1500;  // 1.5s fade duration (matches CSS transition)
+    heroVideo.addEventListener('seeked', () => {
+      clearTimeout(fallbackTimer);
+      heroVideo.style.opacity = '1';
+    }, { once: true });
+
+    // Also clear fallback on error
+    heroVideo.addEventListener('error', () => {
+      clearTimeout(fallbackTimer);
+      showLogo();
+    }, { once: true });
+
+    const VIDEO_END = 11;
+    const FADE_DUR  = 1500;
     let fadingOut = false;
 
     function onVideoProgress() {
-      // Begin fading while video is still playing (1.5s before end)
       if (!fadingOut && heroVideo.currentTime >= VIDEO_END - FADE_DUR / 1000) {
         fadingOut = true;
         heroVideo.style.opacity = '0';
-        // Start logo animation at the same time the video begins fading
-        const logo = document.querySelector('.hero-logo');
-        logo.querySelectorAll('.neon-path').forEach(el => {
-          el.style.animation = 'none';
-          el.getBoundingClientRect();
-          el.style.animation = '';
-        });
-        logo.style.transition = 'opacity 0.4s ease';
-        logo.style.opacity = '1';
-        // After logo finishes drawing (~2.5s), fade in the background photo
-        setTimeout(() => {
-          const black = document.querySelector('.hero-black');
-          if (black) black.style.opacity = '0';
-        }, 2500);
+        showLogo();
       }
-      // Pause when fully black
       if (heroVideo.currentTime >= VIDEO_END) {
         heroVideo.removeEventListener('timeupdate', onVideoProgress);
         heroVideo.pause();
       }
     }
     heroVideo.addEventListener('timeupdate', onVideoProgress);
+  } else {
+    // No video element at all — show logo immediately
+    showLogo();
   }
 
   // Hide scroll indicator on scroll
