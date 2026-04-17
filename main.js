@@ -61,8 +61,22 @@
     scrollIndicator.style.opacity = '1';
   }, { once: true });
 
+  const nav = document.querySelector('nav');
+  let lastScrollY = 0;
+
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 0) {
+    const y = window.scrollY;
+
+    // Hide nav on scroll down, show on scroll up
+    if (y > lastScrollY && y > 80) {
+      nav.classList.add('nav--hidden');
+    } else {
+      nav.classList.remove('nav--hidden');
+    }
+    lastScrollY = y;
+
+    // Hide scroll indicator once user starts scrolling
+    if (y > 0) {
       scrollIndicator.style.opacity = '0';
       scrollIndicator.style.pointerEvents = 'none';
     } else {
