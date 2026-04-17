@@ -50,7 +50,7 @@
   }
   .hero-bg {
     position: absolute; inset: 0;
-    background-image: url('imgs/Arena Lighting/Picture 6.jpg');
+    background-image: url('https://res.cloudinary.com/dnhoxymes/image/upload/v1776403643/lowlightcrtv/Arena_Lighting/Picture_6.jpg');
     background-size: cover; background-position: center 30%;
     animation: slowZoom 20s ease-out forwards;
   }
