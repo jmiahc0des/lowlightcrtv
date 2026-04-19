@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gallery — Lowlight CRTV</title>
+<meta name="description" content="Lowlight CRTV — lighting design portfolio.">
+<meta property="og:title" content="Lowlight CRTV">
+<meta property="og:image" content="" id="ogImage">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/dnhoxymes/image/upload/c_fit,w_32,h_32/lightningbolts-gold-transparent_cmious.png">
 </head>
 <body>
 
@@ -76,6 +80,7 @@
     if (album) {
       document.title = album.name + ' — Lowlight CRTV';
       document.getElementById('galleryTitle').textContent = album.name;
+      document.getElementById('ogImage').content = album.preview;
       const grid = document.getElementById('galleryGrid');
       album.files.forEach((file, index) => {
         const item = document.createElement('div');

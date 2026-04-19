@@ -245,7 +245,7 @@
   .portfolio-card:hover .portfolio-name { transform: translateY(-3px); }
 
   /* ── GALLERY (individual album page) ── */
-  .gallery-header { padding: 6rem 2.5rem 2rem; }
+  .gallery-header { padding: 11rem 2.5rem 2rem; }
   .gallery-back { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
   .gallery-back:hover { color: var(--gold); }
   .gallery-header h1 { font-family: var(--font-display); font-size: clamp(2rem,4vw,3.5rem); margin-top: 1rem; }
@@ -448,7 +448,7 @@
     .portfolio { padding: 8rem 1.5rem 4rem; }
     .portfolio-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); padding: 0 0 4rem; }
-    .gallery-header { padding: 5rem 1.5rem 1.5rem; }
+    .gallery-header { padding: 10rem 1.5rem 1.5rem; }
   }
 
   @media (max-width: 520px) {
@@ -464,7 +464,7 @@
     .portfolio { padding: 7rem 1.25rem 3.5rem; }
     .portfolio-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
     .gallery-grid { grid-template-columns: 1fr; padding: 0 0 4rem; }
-    .gallery-header { padding: 4.5rem 1.25rem 1rem; }
+    .gallery-header { padding: 10rem 1.25rem 1rem; }
   }
 
 /* ── LOGO ANIMATION (hero + about panel) ── */

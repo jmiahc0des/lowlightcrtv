@@ -4,11 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lowlight CRTV</title>
+<meta name="description" content="Lowlight CRTV — full-service lighting design and production for concerts, broadcast, and events.">
+<meta property="og:title" content="Lowlight CRTV">
+<meta property="og:description" content="Full-service lighting design and production for concerts, broadcast, and events.">
+<meta property="og:image" content="https://res.cloudinary.com/dnhoxymes/image/upload/w_1200,h_630,c_fill,g_auto/v1776449164/Hero_Asset_whjsq8.jpg">
+<meta property="og:url" content="https://lowlightcrtv.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <link rel="icon" type="image/png" href="https://res.cloudinary.com/dnhoxymes/image/upload/c_fit,w_32,h_32/lightningbolts-gold-transparent_cmious.png">
 </head>
 <body>
@@ -46,19 +52,16 @@
 <section class="hero">
   <div class="hero-bg">
   <div class="hero-black"></div>
-  <video class="hero-video" id="heroVideo" autoplay muted playsinline>
-    <source id="heroVideoSrc" src="" type="video/mp4">
+  <video class="hero-video" id="heroVideo" autoplay muted playsinline poster="https://res.cloudinary.com/dnhoxymes/image/upload/w_1280,h_720,c_fill/v1776449164/Hero_Asset_whjsq8.jpg">
+    <source id="heroVideoSrc" src="https://res.cloudinary.com/dnhoxymes/video/upload/v1776449164/Hero_Asset_whjsq8.mp4" type="video/mp4">
   </video>
   <script>
-    fetch('hero.json')
-      .then(r => r.json())
-      .then(data => {
-        const v = document.getElementById('heroVideo');
-        const s = document.getElementById('heroVideoSrc');
-        if (data.poster) v.poster = data.poster;
-        s.src = data.video;
-        v.load();
-      });
+    fetch('hero.json').then(r => r.json()).then(data => {
+      const v = document.getElementById('heroVideo');
+      const s = document.getElementById('heroVideoSrc');
+      if (data.poster) v.poster = data.poster;
+      if (data.video && s.src !== data.video) { s.src = data.video; v.load(); }
+    });
   </script>
 </div>
   <div class="hero-logo"><?xml version="1.0" encoding="UTF-8"?>
@@ -128,12 +131,15 @@
         data.cards.forEach(card => {
           const div = document.createElement('div');
           div.className = 'card';
-          div.innerHTML =
-            '<img src="' + card.image + '" alt="' + card.title + '" loading="lazy">' +
-            '<div class="card-label">' +
-              '<p class="card-cat">' + card.category + '</p>' +
-              '<p class="card-title">' + card.title + '</p>' +
-            '</div>';
+          const img = document.createElement('img');
+          img.src = card.image; img.alt = card.title; img.loading = 'lazy';
+          const cat = document.createElement('p');
+          cat.className = 'card-cat'; cat.textContent = card.category;
+          const ttl = document.createElement('p');
+          ttl.className = 'card-title'; ttl.textContent = card.title;
+          const lbl = document.createElement('div');
+          lbl.className = 'card-label'; lbl.appendChild(cat); lbl.appendChild(ttl);
+          div.appendChild(img); div.appendChild(lbl);
           grid.appendChild(div);
         });
       });
@@ -242,7 +248,7 @@
 </footer>
 
 <script src="main.js" defer></script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async></script>
 <script>
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on('init', user => {
