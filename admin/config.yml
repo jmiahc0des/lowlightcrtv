@@ -2,6 +2,9 @@ backend:
   name: git-gateway
   branch: main
 
+media_folder: uploads
+public_folder: /uploads
+
 media_library:
   name: cloudinary
   config:
@@ -31,3 +34,30 @@ collections:
                 summary: "{{fields.src}}"
                 fields:
                   - { name: src, label: Image, widget: image }
+
+  - name: hero
+    label: Hero Section
+    files:
+      - name: hero
+        label: Hero Video & Image
+        file: hero.json
+        fields:
+          - { name: video, label: Video URL, widget: string, hint: "Paste the Cloudinary video URL (mp4)" }
+          - { name: poster, label: Poster Image, widget: image, required: false, hint: "Shown before the video loads — leave blank to skip" }
+
+  - name: featured
+    label: Featured Work (Home Page)
+    files:
+      - name: featured
+        label: Featured Cards
+        file: featured.json
+        fields:
+          - name: cards
+            label: Cards
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: image, label: Image, widget: image }
+              - { name: category, label: Category Label, widget: string }
+              - { name: title, label: Title, widget: string }
+              - { name: album, label: Album Slug, widget: string, hint: "Must match a slug in albums.json" }

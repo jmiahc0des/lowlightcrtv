@@ -185,11 +185,12 @@
     border-bottom: 1px solid rgba(247,245,233,0.08); padding-bottom: 1.5rem;
   }
   .work-header h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); }
-  .work-header a {
+  .work-view-all {
+    display: block; text-align: center; margin-top: 2.5rem;
     font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--dim); text-decoration: none; transition: color 0.2s;
   }
-  .work-header a:hover { color: var(--gold); }
+  .work-view-all:hover { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
   .grid {
     display: grid;
     grid-template-columns: 1.6fr 1fr;
@@ -351,7 +352,7 @@
     font-size: clamp(3rem, 8vw, 7rem);
     line-height: 1; margin-bottom: 2.5rem; color: var(--cream);
   }
-  .cta h2 em { font-style: normal; -webkit-text-stroke: 1px rgba(247,245,233,0.35); color: transparent; }
+  .cta h2 em { font-style: normal; -webkit-text-stroke: 1px rgba(247,245,233,0.65); color: transparent; text-rendering: geometricPrecision; }
   .btn {
     display: inline-block; font-family: var(--font-body);
     font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;

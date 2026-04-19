@@ -1,0 +1,22 @@
+{
+  "cards": [
+    {
+      "image": "https://res.cloudinary.com/dnhoxymes/image/upload/c_fill,g_auto,ar_4:3/v1776403646/lowlightcrtv/Gavin_Adcock_2025_Images/572817884_10235942717525870_3199084392804687751_n.jpg",
+      "category": "Concert Touring",
+      "title": "Gavin Adcock",
+      "album": "gavin-adcock"
+    },
+    {
+      "image": "https://res.cloudinary.com/dnhoxymes/image/upload/c_fill,g_auto,ar_4:3/v1776403688/lowlightcrtv/V3D_Conference/Image_7.jpg",
+      "category": "Corporate Event",
+      "title": "House Of Worship",
+      "album": "indy-lighting"
+    },
+    {
+      "image": "https://res.cloudinary.com/dnhoxymes/image/upload/c_fill,g_auto,ar_4:3/v1776403646/lowlightcrtv/Ella_Langley/578485751_10236072602212906_8496667426424587086_n.jpg",
+      "category": "Broadcast TV Lighting",
+      "title": "Ella Langley",
+      "album": "ella-langley"
+    }
+  ]
+}

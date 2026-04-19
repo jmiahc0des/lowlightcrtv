@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <link rel="icon" type="image/png" href="https://res.cloudinary.com/dnhoxymes/image/upload/c_fit,w_32,h_32/lightningbolts-gold-transparent_cmious.png">
 </head>
 <body>
@@ -45,9 +46,20 @@
 <section class="hero">
   <div class="hero-bg">
   <div class="hero-black"></div>
-  <video class="hero-video" autoplay muted playsinline>
-    <source src="https://res.cloudinary.com/dnhoxymes/video/upload/v1776449164/Hero_Asset_whjsq8.mp4" type="video/mp4">
+  <video class="hero-video" id="heroVideo" autoplay muted playsinline>
+    <source id="heroVideoSrc" src="" type="video/mp4">
   </video>
+  <script>
+    fetch('hero.json')
+      .then(r => r.json())
+      .then(data => {
+        const v = document.getElementById('heroVideo');
+        const s = document.getElementById('heroVideoSrc');
+        if (data.poster) v.poster = data.poster;
+        s.src = data.video;
+        v.load();
+      });
+  </script>
 </div>
   <div class="hero-logo"><?xml version="1.0" encoding="UTF-8"?>
 <svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080"><defs>
@@ -106,31 +118,27 @@
 <section class="work" id="work">
   <div class="work-header">
     <h2>SELECTED WORK</h2>
-    <a href="work.html">View All →</a>
   </div>
-  <div class="grid">
-    <div class="card">
-      <img src="https://res.cloudinary.com/dnhoxymes/image/upload/c_fill,g_auto,ar_4:3/v1776403646/lowlightcrtv/Gavin_Adcock_2025_Images/572817884_10235942717525870_3199084392804687751_n.jpg" alt="Arena show">
-      <div class="card-label">
-        <p class="card-cat">Concert Touring</p>
-        <p class="card-title">Gavin Adcock</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://res.cloudinary.com/dnhoxymes/image/upload/c_fill,g_auto,ar_4:3/v1776403688/lowlightcrtv/V3D_Conference/Image_7.jpg" alt="Club show">
-      <div class="card-label">
-        <p class="card-cat">Corporate Event</p>
-        <p class="card-title">House Of Worship</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://res.cloudinary.com/dnhoxymes/image/upload/c_fill,g_auto,ar_4:3/v1776403646/lowlightcrtv/Ella_Langley/578485751_10236072602212906_8496667426424587086_n.jpg" alt="Ella Langley">
-      <div class="card-label">
-        <p class="card-cat">Broadcast TV Lighting</p>
-        <p class="card-title">Ella Langley</p>
-      </div>
-    </div>
-  </div>
+  <div class="grid" id="featuredGrid"></div>
+  <script>
+    fetch('featured.json')
+      .then(r => r.json())
+      .then(data => {
+        const grid = document.getElementById('featuredGrid');
+        data.cards.forEach(card => {
+          const div = document.createElement('div');
+          div.className = 'card';
+          div.innerHTML =
+            '<img src="' + card.image + '" alt="' + card.title + '" loading="lazy">' +
+            '<div class="card-label">' +
+              '<p class="card-cat">' + card.category + '</p>' +
+              '<p class="card-title">' + card.title + '</p>' +
+            '</div>';
+          grid.appendChild(div);
+        });
+      });
+  </script>
+  <a class="work-view-all" href="work.html">View All →</a>
 </section>
 <!-- SERVICES -->
 <section class="services" id="services">
