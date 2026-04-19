@@ -118,6 +118,26 @@
     });
   }, { threshold: 0.3 }).observe(aboutWrap);
 
+  // Hamburger menu
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    function closeMenu() {
+      hamburger.classList.remove('is-open');
+      mobileMenu.classList.remove('is-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', () => {
+      const opening = !hamburger.classList.contains('is-open');
+      hamburger.classList.toggle('is-open');
+      mobileMenu.classList.toggle('is-open');
+      hamburger.setAttribute('aria-expanded', String(opening));
+      document.body.style.overflow = opening ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  }
+
   // Contact form — validation + Netlify AJAX submission
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
