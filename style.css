@@ -435,11 +435,9 @@
   stroke: #c4b44c;
   stroke-width: 1.5;
   opacity: 0;
-  filter: url(#neonGlow);
   stroke-dasharray: var(--path-length, 3000);
   stroke-dashoffset: var(--path-length, 3000);
 }
-.neon-path-about { filter: url(#neonGlow2); }
 
 /* Hero paths */
 #p1 { animation: draw 1.4s cubic-bezier(0.4,0,0.2,1) 0.00s forwards, flicker1 0.38s steps(1) 1.25s forwards, fillIn 0.4s ease 1.75s forwards, neonBuzz 3s ease-in-out 2.15s infinite; }

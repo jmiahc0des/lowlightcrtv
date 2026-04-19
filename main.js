@@ -98,9 +98,6 @@
   (function buildAboutLogo() {
     const clone = heroSvg.cloneNode(true);
     // Rename filter ID to avoid document-level collision
-    clone.querySelectorAll('defs').forEach(d => {
-      d.innerHTML = d.innerHTML.replace(/id="neonGlow"/g, 'id="neonGlow2"');
-    });
     // Swap class + path IDs so the about-panel rules in style.css apply
     clone.querySelectorAll('.neon-path').forEach(el => {
       el.classList.replace('neon-path', 'neon-path-about');
