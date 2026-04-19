@@ -55,11 +55,13 @@
   // Hide scroll indicator on scroll
   const scrollIndicator = document.querySelector('.hero-scroll');
 
-  // Once the fade-in animation finishes, remove it so JS can control opacity freely
-  scrollIndicator.addEventListener('animationend', () => {
-    scrollIndicator.style.animation = 'none';
-    scrollIndicator.style.opacity = '1';
-  }, { once: true });
+  if (scrollIndicator) {
+    // Once the fade-in animation finishes, remove it so JS can control opacity freely
+    scrollIndicator.addEventListener('animationend', () => {
+      scrollIndicator.style.animation = 'none';
+      scrollIndicator.style.opacity = '1';
+    }, { once: true });
+  }
 
   const nav = document.querySelector('nav');
   let lastScrollY = 0;
@@ -76,12 +78,14 @@
     lastScrollY = y;
 
     // Hide scroll indicator once user starts scrolling
-    if (y > 0) {
-      scrollIndicator.style.opacity = '0';
-      scrollIndicator.style.pointerEvents = 'none';
-    } else {
-      scrollIndicator.style.opacity = '1';
-      scrollIndicator.style.pointerEvents = '';
+    if (scrollIndicator) {
+      if (y > 0) {
+        scrollIndicator.style.opacity = '0';
+        scrollIndicator.style.pointerEvents = 'none';
+      } else {
+        scrollIndicator.style.opacity = '1';
+        scrollIndicator.style.pointerEvents = '';
+      }
     }
   }, { passive: true });
 
@@ -95,28 +99,30 @@
   const heroSvg = document.querySelector('.hero-logo svg');
   const aboutWrap = document.getElementById('aboutLogoWrap');
 
-  (function buildAboutLogo() {
-    const clone = heroSvg.cloneNode(true);
-    // Rename filter ID to avoid document-level collision
-    // Swap class + path IDs so the about-panel rules in style.css apply
-    clone.querySelectorAll('.neon-path').forEach(el => {
-      el.classList.replace('neon-path', 'neon-path-about');
-      if (/^p\d/.test(el.id)) el.id = 'a' + el.id;
-    });
-    aboutWrap.appendChild(clone);
-  })();
+  if (heroSvg && aboutWrap) {
+    (function buildAboutLogo() {
+      const clone = heroSvg.cloneNode(true);
+      // Rename filter ID to avoid document-level collision
+      // Swap class + path IDs so the about-panel rules in style.css apply
+      clone.querySelectorAll('.neon-path').forEach(el => {
+        el.classList.replace('neon-path', 'neon-path-about');
+        if (/^p\d/.test(el.id)) el.id = 'a' + el.id;
+      });
+      aboutWrap.appendChild(clone);
+    })();
 
-  // Replay animation when section scrolls into view
-  let played = false;
-  new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting && !played) {
-        played = true;
-        const svg = aboutWrap.querySelector('svg');
-        if (svg) aboutWrap.replaceChild(svg.cloneNode(true), svg);
-      }
-    });
-  }, { threshold: 0.3 }).observe(aboutWrap);
+    // Replay animation when section scrolls into view
+    let played = false;
+    new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !played) {
+          played = true;
+          const svg = aboutWrap.querySelector('svg');
+          if (svg) aboutWrap.replaceChild(svg.cloneNode(true), svg);
+        }
+      });
+    }, { threshold: 0.3 }).observe(aboutWrap);
+  }
 
   // Hamburger menu
   const hamburger = document.querySelector('.nav-hamburger');
