@@ -19,17 +19,19 @@
     // Fallback: show logo after 8s regardless (covers slow connections)
     const logoTimer = setTimeout(showLogo, 8000);
 
-    // Show video as soon as browser has enough data to play.
-    // Also check readyState immediately in case canplay already fired before this script ran.
-    function startVideo() {
+    const startVideo = () => {
       heroVideo.style.opacity = '1';
       heroVideo.play().catch(() => {});
-    }
-    if (heroVideo.readyState >= 3) {
+    };
+    if (heroVideo.readyState >= 2) {
       startVideo();
     } else {
-      heroVideo.addEventListener('canplay', startVideo, { once: true });
+      heroVideo.addEventListener('loadeddata', startVideo, { once: true });
     }
+
+    // iOS may reject autoplay (NotAllowedError) even with muted+playsinline when
+    // Low Power Mode or per-site Auto-Play is off. Retry on the first gesture.
+    document.addEventListener('pointerdown', () => heroVideo.play().catch(() => {}), { once: true });
 
     // If video errors, skip straight to logo
     heroVideo.addEventListener('error', () => {

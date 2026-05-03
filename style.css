@@ -95,6 +95,7 @@
   .hero-bg::after {
     content: ''; position: absolute; inset: 0; z-index: 3;
     background: linear-gradient(to top, rgba(21,21,21,1) 0%, rgba(21,21,21,0.5) 40%, rgba(21,21,21,0.15) 100%);
+    pointer-events: none;
   }
   .hero-video {
     position: absolute; inset: 0;
